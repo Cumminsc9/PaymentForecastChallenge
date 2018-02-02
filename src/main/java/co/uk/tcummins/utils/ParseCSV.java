@@ -37,37 +37,33 @@ public class ParseCSV
         {
             parser = new CSVParser( fileReader, CSVFormat.EXCEL.withHeader() );
 
-            int preID = 0;
-            List<Merchant> merchantList = new ArrayList<>();
-            List<Payment> paymentList = new ArrayList<>();
-
+            int prevID = 0;
             Merchant merchant = null;
+
+            final List<Merchant> merchantList = new ArrayList<>();
+
             for( CSVRecord record : parser.getRecords() )
             {
                 final int merchantID = Integer.parseInt( record.get( "MerchantId" ) );
                 final String merchantName = record.get( "MerchantName" );
                 final String merchantPubKey = record.get( "MerchantPubKey" );
 
-                if( merchantID != preID )
+                if( merchantID != prevID )
                 {
                     merchant = new Merchant( merchantID, merchantName, merchantPubKey );
-                    paymentList.clear();
-                }
-
-                paymentList.add( parsePayment( record, merchantPubKey ) );
-
-                if( merchant != null && merchantID != preID )
-                {
-                    merchant.setPayments( paymentList );
                     merchantList.add( merchant );
                 }
 
-                preID = merchantID;
+                final Payment payment = parsePayment( record, merchantPubKey );
+                if( merchant != null && payment != null )
+                {
+                    merchant.addPayment( payment );
+                }
+
+                prevID = merchantID;
             }
 
-            for (Merchant merchant1 : merchantList) {
-                System.out.println( merchant1);
-            }
+            merchantList.forEach( System.out::println );
         }
         catch( IOException e )
         {
@@ -94,24 +90,35 @@ public class ParseCSV
 
     private Payment parsePayment( final CSVRecord record, final String merchantPubKey )
     {
-        final int payerID = Integer.parseInt( record.get( "PayerId" ) );
-        final String payerPubKey = record.get( "PayerPubKey" );
+        try
+        {
+            final int payerID = Integer.parseInt( record.get( "PayerId" ) );
+            final String payerPubKey = record.get( "PayerPubKey" );
 
-        final LocalDateTime dueUTC = LocalDateTime.ofInstant( Instant.parse( record.get( "DueUTC" ) ), ZoneOffset.ofHours( 0 ) );
-        final LocalDateTime receivedUTC = LocalDateTime.ofInstant( Instant.parse( record.get( "ReceivedUTC" ) ),
-                ZoneOffset.ofHours( 0 ) );
-        final long dueEpoch = Long.parseLong( record.get( "DueEpoc" ) );
+            final LocalDateTime dueUTC = LocalDateTime.ofInstant( Instant.parse( record.get( "DueUTC" ) ),
+                    ZoneOffset.ofHours( 0 ) );
+            final LocalDateTime receivedUTC = LocalDateTime.ofInstant( Instant.parse( record.get( "ReceivedUTC" ) ),
+                    ZoneOffset.ofHours( 0 ) );
+            final long dueEpoch = Long.parseLong( record.get( "DueEpoc" ) );
 
-        final int debitPermissionId = Integer.parseInt( record.get( "DebitPermissionId" ) );
-        final String currency = record.get( "Currency" );
-        final double amount = Double.parseDouble( record.get( "Amount" ) );
+            final int debitPermissionId = Integer.parseInt( record.get( "DebitPermissionId" ) );
+            final String currency = record.get( "Currency" );
+            final double amount = Double.parseDouble( record.get( "Amount" ) );
 
-        final String SHA256 = record.get( "SHA256(MerchantPubKeyPayerPubKeyDebitPermissionIdDueEpocAmount)" );
+            final String SHA256 = record.get( "SHA256(MerchantPubKeyPayerPubKeyDebitPermissionIdDueEpocAmount)" );
 
-        final boolean validHash = calculateSecurityHash(SHA256, merchantPubKey, payerPubKey, debitPermissionId, dueEpoch, amount);
+            final boolean validHash = calculateSecurityHash( SHA256, merchantPubKey, payerPubKey, debitPermissionId, dueEpoch,
+                    amount );
 
-        return new Payment( payerID, payerPubKey, dueUTC, receivedUTC, dueEpoch, debitPermissionId, currency, amount,
-                    SHA256, validHash );
+            return new Payment( payerID, payerPubKey, dueUTC, receivedUTC, dueEpoch, debitPermissionId, currency, amount, SHA256,
+                    validHash );
+        }
+        catch( Exception ignored )
+        {
+
+        }
+
+        return null;
     }
 
 
@@ -157,8 +164,8 @@ public class ParseCSV
     {
         try
         {
-            //final String fileName = "payment-forecast-data.csv";
-            final String fileName = "test.csv";
+            final String fileName = "payment-forecast-data.csv";
+            //final String fileName = "test.csv";
             final ClassLoader classLoader = getClass().getClassLoader();
             final URL resource = classLoader.getResource( fileName );
 

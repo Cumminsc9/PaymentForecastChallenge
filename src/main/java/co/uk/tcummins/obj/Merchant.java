@@ -1,5 +1,6 @@
 package co.uk.tcummins.obj;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,30 +16,56 @@ public class Merchant
 
     public Merchant( int merchantID, String merchantName, String merchantPublicKey )
     {
+        this.setMerchantID(merchantID);
+        this.setMerchantName(merchantName);
+        this.setMerchantPublicKey(merchantPublicKey);
+        this.setPayments(new ArrayList<>());
+    }
+
+    public int getMerchantID() {
+        return merchantID;
+    }
+
+    public void setMerchantID(int merchantID) {
         this.merchantID = merchantID;
+    }
+
+    public String getMerchantName() {
+        return merchantName;
+    }
+
+    public void setMerchantName(String merchantName) {
         this.merchantName = merchantName;
+    }
+
+    public String getMerchantPublicKey() {
+        return merchantPublicKey;
+    }
+
+    public void setMerchantPublicKey(String merchantPublicKey) {
         this.merchantPublicKey = merchantPublicKey;
     }
 
-
-    public List<Payment> getPayments()
+    public void addPayment( final Payment payment )
     {
+        this.getPayments().add(payment);
+    }
+
+    public List<Payment> getPayments() {
         return payments;
     }
 
-
-    public void setPayments( List<Payment> payments )
-    {
+    public void setPayments(List<Payment> payments) {
         this.payments = payments;
     }
 
     @Override
     public String toString() {
         return "Merchant{" +
-                "merchantID=" + merchantID +
-                ", merchantName='" + merchantName + '\'' +
-                ", merchantPublicKey='" + merchantPublicKey + '\'' +
-                ", payments=" + payments +
+                "merchantID=" + getMerchantID() +
+                ", merchantName='" + getMerchantName() + '\'' +
+                ", merchantPublicKey='" + getMerchantPublicKey() + '\'' +
+                ", payments=" + getPayments() +
                 '}';
     }
 }
