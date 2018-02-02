@@ -17,6 +17,6 @@ public class Main
 
     private Main()
     {
-        new ParseCSV().readCSV();
+        new ParseCSV().parseCSV();
     }
 }

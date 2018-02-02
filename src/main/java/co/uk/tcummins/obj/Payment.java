@@ -1,5 +1,6 @@
 package co.uk.tcummins.obj;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -150,17 +151,17 @@ public class Payment
 
     @Override
     public String toString() {
-        return "Payment{" +
-                "payerID=" + payerID +
-                ", payerPublicKey='" + payerPublicKey + '\'' +
-                ", paymentDue=" + paymentDue +
-                ", paymentReceived=" + paymentReceived +
-                ", dueEpoch=" + dueEpoch +
-                ", currency='" + currency + '\'' +
-                ", debitPermissionID=" + debitPermissionID +
-                ", amount=" + amount +
-                ", securityHash='" + securityHash + '\'' +
-                ", validHash=" + validHash +
-                '}';
+        return "Payment: " +
+                "\n\tID: " + payerID +
+                "\n\tPublicKey: " + payerPublicKey +
+                "\n\tDue: " + paymentDue +
+                "\n\tReceived: " + paymentReceived +
+                "\n\tDueEpoch: " + dueEpoch +
+                "\n\tCurrency: " + currency +
+                "\n\tDebitPermissionID: " + debitPermissionID +
+                "\n\tAmount: " + amount +
+                "\n\tSecurityHash: " + securityHash +
+                "\n\tValidHash: " + validHash + "\n";
+
     }
 }

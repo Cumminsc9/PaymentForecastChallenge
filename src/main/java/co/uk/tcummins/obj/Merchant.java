@@ -1,6 +1,8 @@
 package co.uk.tcummins.obj;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -61,12 +63,11 @@ public class Merchant
 
     @Override
     public String toString() {
-        return "Merchant{" +
-                "merchantID=" + getMerchantID() +
-                ", merchantName='" + getMerchantName() + '\'' +
-                ", merchantPublicKey='" + getMerchantPublicKey() + '\'' +
-                ", payments=" + getPayments() +
-                '}';
+        return "Merchant: " +
+                "\nID: " + getMerchantID() +
+                "\nName: " + getMerchantName() +
+                "\nPublicKey: " + getMerchantPublicKey() +
+                "\nPayments: " + getPayments() + "\n";
     }
 }
 
