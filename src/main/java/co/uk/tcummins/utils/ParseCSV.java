@@ -1,7 +1,8 @@
 package co.uk.tcummins.utils;
 
-import co.uk.tcummins.obj.Merchant;
-import co.uk.tcummins.obj.Payment;
+import co.uk.tcummins.objs.Log;
+import co.uk.tcummins.objs.Merchant;
+import co.uk.tcummins.objs.Payment;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -22,25 +23,54 @@ import java.util.List;
  */
 public class ParseCSV
 {
-    public List<Merchant> parseCSV()
+    private final static Object SINGLETON = new Object();
+
+    private static ParseCSV instance;
+
+    private final List<Merchant> merchantList;
+
+
+    private ParseCSV()
     {
-        final Reader fileReader = locateFile();
-        if( fileReader == null )
+        merchantList = new ArrayList<>();
+    }
+
+
+    public static ParseCSV getInstance()
+    {
+        synchronized( SINGLETON )
         {
-            return new ArrayList<>();
+            if( instance == null )
+            {
+                instance = new ParseCSV();
+            }
+        }
+
+        return instance;
+    }
+
+
+    public List<Merchant> getMerchantList()
+    {
+        return merchantList;
+    }
+
+
+    public void parseCSV(final Reader reader )
+    {
+        if( reader == null )
+        {
+            return;
         }
 
         CSVParser parser = null;
 
         try
         {
-            parser = new CSVParser( fileReader, CSVFormat.EXCEL.withHeader() );
+            parser = new CSVParser( reader, CSVFormat.EXCEL.withHeader() );
 
             int prevID = 0;
             Merchant merchant = null;
-
-            final List<Merchant> merchantList = new ArrayList<>();
-
             for( CSVRecord record : parser.getRecords() )
             {
                 final int merchantID = Integer.parseInt( record.get( "MerchantId" ) );
@@ -61,8 +91,6 @@ public class ParseCSV
 
                 prevID = merchantID;
             }
-
-            merchantList.forEach( System.out::println );
         }
         catch( IOException e )
         {
@@ -82,8 +110,6 @@ public class ParseCSV
                 }
             }
         }
-
-        return new ArrayList<>();
     }
 
 
@@ -112,33 +138,10 @@ public class ParseCSV
         }
         catch( Exception ex )
         {
-            ex.printStackTrace();
-        }
-
-        return null;
-    }
-
-
-
-
-
-    private Reader locateFile()
-    {
-        try
-        {
-            //final String fileName = "payment-forecast-data.csv";
-            final String fileName = "test.csv";
-            final ClassLoader classLoader = getClass().getClassLoader();
-            final URL resource = classLoader.getResource( fileName );
-
-            if( resource != null )
-            {
-                return new InputStreamReader( new BOMInputStream( resource.openStream() ), "UTF-8" );
-            }
-        }
-        catch( IOException e )
-        {
-            e.printStackTrace();
+            final long recordNum = record.getRecordNumber()+1;
+            Logger.getInstance().log( "Error parsing record: " + recordNum + ", " +
+                    ex.getMessage(), ParseCSV.class.getName(), Log.LogLevel.ERROR );
+            Logger.getInstance().logParserError( record, recordNum, ex.getMessage() );
         }
 
         return null;

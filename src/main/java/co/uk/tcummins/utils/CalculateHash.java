@@ -1,5 +1,7 @@
 package co.uk.tcummins.utils;
 
+import co.uk.tcummins.objs.Log;
+
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -44,6 +46,8 @@ class CalculateHash
         }
         catch( NoSuchAlgorithmException e )
         {
+            Logger.getInstance().log( "Error computing secure hash: " + e.getMessage(),
+                                       CalculateHash.class.getName(), Log.LogLevel.FATAL );
             e.printStackTrace();
         }
 

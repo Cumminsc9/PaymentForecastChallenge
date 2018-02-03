@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Spring Boot Thymeleaf Hello World Example</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Payment Forecast Challenge</a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li th:classappend="${#httpServletRequest.getRequestURI()=='/'?'active':''}"><a href="/">Payments</a></li>
+                        <li th:classappend="${#httpServletRequest.getRequestURI()=='/logs'?'active':''}"><a href="/logs">Logs</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Sky</th>
+                        <th>British_Gas</th>
+                        <th>Vodafone</th>
+                        <th>Thames_Water</th>
+                        <th>British_Telecom</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Monday</th>
+                        <!--<td th:text="${arrayname.get(0).getMethod()}"></td>-->
+                    </tr>
+                    <tr>
+                        <th>Tuesday</th>
+                    </tr>
+                    <tr>
+                        <th>Wednesday</th>
+                    </tr>
+                    <tr>
+                        <th>Thursday</th>
+                    </tr>
+                    <tr>
+                        <th>Friday</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <script type="text/javascript" src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </body>
+</html>
