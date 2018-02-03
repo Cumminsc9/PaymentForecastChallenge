@@ -56,14 +56,6 @@ public class Payment
         return amount;
     }
 
-    public DayOfWeek getPaymentDay() {
-        return paymentDay;
-    }
-
-    public void setPaymentDay(DayOfWeek paymentDay) {
-        this.paymentDay = paymentDay;
-    }
-
     @Override
     public String toString() {
         return "Payment: " +

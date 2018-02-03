@@ -63,7 +63,6 @@ public class ParseData
 
     private void calculateMerchantTotals()
     {
-
         double dayAmount = 0;
         DayOfWeek previousDay = null;
 
@@ -71,23 +70,21 @@ public class ParseData
         {
             for( Payment payment : merchant.getPayments() )
             {
-                final LocalDateTime date = payment.getPaymentDue();
-
-                if( date.get(ChronoField.CLOCK_HOUR_OF_DAY) > 16 && date.get(ChronoField.CLOCK_HOUR_OF_DAY) != 24 )
+                if( payment.getPaymentDue().get(ChronoField.CLOCK_HOUR_OF_DAY) >= 16 && payment.getPaymentDue().get(ChronoField.CLOCK_HOUR_OF_DAY) != 24 )
                 {
                     payment.setPaymentDue( payment.getPaymentDue().plusDays(1) );
                 }
 
                 dayAmount += payment.getAmount();
 
-                if( !date.getDayOfWeek().equals(previousDay) )
+                if( !payment.getPaymentDue().getDayOfWeek().equals( previousDay ) )
                 {
                     dayAmount = Math.round(dayAmount * 100.0) / 100.0;
-                    tableDataList.add( new TableData( date.getDayOfWeek().toString(), merchant.getMerchantName(), dayAmount ) );
+                    tableDataList.add( new TableData(  payment.getPaymentDue().getDayOfWeek().toString(), merchant.getMerchantName(), dayAmount ) );
                     dayAmount = 0;
                 }
 
-                previousDay = date.getDayOfWeek();
+                previousDay =  payment.getPaymentDue().getDayOfWeek();
             }
         }
 
