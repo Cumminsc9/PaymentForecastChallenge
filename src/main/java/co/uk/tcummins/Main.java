@@ -30,7 +30,6 @@ public class Main
     {
         ParseData.getInstance().parseCSV( locateFile() );
         Logger.getInstance().log( "Application started", Main.class.getName(), Log.LogLevel.INFO );
-
     }
 
 
@@ -45,11 +44,13 @@ public class Main
 
             if( resource != null )
             {
+                Logger.getInstance().log( "Located csv file", Main.class.getName(), Log.LogLevel.INFO );
                 return new InputStreamReader( new BOMInputStream( resource.openStream() ), "UTF-8" );
             }
         }
         catch( IOException e )
         {
+            Logger.getInstance().log( "Unable to locate csv file", Main.class.getName(), Log.LogLevel.FATAL );
             e.printStackTrace();
         }
 

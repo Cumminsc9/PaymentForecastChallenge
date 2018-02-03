@@ -6,6 +6,7 @@ import co.uk.tcummins.objs.Payment;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -77,7 +78,7 @@ public class ParseData
 
                 dayAmount += payment.getAmount();
 
-                if( !payment.getPaymentDue().getDayOfWeek().equals( previousDay ) )
+                if( previousDay != null && !payment.getPaymentDue().getDayOfWeek().equals( previousDay ) )
                 {
                     dayAmount = Math.round(dayAmount * 100.0) / 100.0;
                     tableDataList.add( new TableData(  payment.getPaymentDue().getDayOfWeek().toString(), merchant.getMerchantName(), dayAmount ) );
@@ -159,7 +160,7 @@ public class ParseData
         }
         catch( IOException e )
         {
-            e.printStackTrace();
+            Logger.getInstance().log("Error during parsing of file: " + e.getMessage(), ParseData.class.getName(), Log.LogLevel.ERROR);
         }
         finally
         {
@@ -171,7 +172,7 @@ public class ParseData
                 }
                 catch( IOException e )
                 {
-                    e.printStackTrace();
+                    Logger.getInstance().log("Error during parsing of file: "+ e.getMessage(), ParseData.class.getName(), Log.LogLevel.ERROR);
                 }
             }
         }

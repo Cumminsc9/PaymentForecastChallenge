@@ -44,13 +44,13 @@ class CalculateHash
 
             if( SHA256.equals( hashedString.toString() ) )
             {
+                Logger.getInstance().log( "Secure hash computed successfully: " + SHA256, CalculateHash.class.getName(), Log.LogLevel.INFO );
                 return true;
             }
         }
         catch( NoSuchAlgorithmException e )
         {
-            Logger.getInstance().log( "Error computing secure hash: " + e.getMessage(),
-                                       CalculateHash.class.getName(), Log.LogLevel.FATAL );
+            Logger.getInstance().log( "Error computing secure hash: " + e.getMessage(), CalculateHash.class.getName(), Log.LogLevel.FATAL );
             e.printStackTrace();
         }
 
