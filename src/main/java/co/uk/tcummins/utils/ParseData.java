@@ -108,7 +108,6 @@ public class ParseData
 
                 dayAmount += payment.getAmount();
 
-                // The newly injected condition here
                 if(previousDay == null)
                 {
                     previousDay = payment.getPaymentDue().getDayOfWeek();
@@ -198,7 +197,6 @@ public class ParseData
             }
 
             calculateMerchantTotals();
-            Logger.getInstance().log( "Successfully computed all hashes: ", ParseData.class.getName(), Log.LogLevel.INFO );
         }
         catch( IOException e )
         {

@@ -53,7 +53,7 @@ class CalculateHash
             e.printStackTrace();
         }
 
-        Logger.getInstance().log( "Unsuccessful hash validation: ", CalculateHash.class.getName(), Log.LogLevel.ERROR );
+        Logger.getInstance().log( "Unsuccessful hash validation: " + SHA256, CalculateHash.class.getName(), Log.LogLevel.ERROR );
         return false;
     }
 }
