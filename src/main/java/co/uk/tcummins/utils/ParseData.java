@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoField;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -34,12 +33,14 @@ public class ParseData
 
     private final List<TableData> tableDataList;
     private final List<Merchant> merchantList;
+    private final List<List<ParseData.TableData>> sortedDataTableList;
 
 
     private ParseData()
     {
-        merchantList = new ArrayList<>();
-        tableDataList = new ArrayList<>();
+        this.merchantList = new ArrayList<>();
+        this.tableDataList = new ArrayList<>();
+        this.sortedDataTableList = new ArrayList<>();
     }
 
 
@@ -57,10 +58,35 @@ public class ParseData
     }
 
 
-    public List<TableData> getTableDataList()
+    public List<List<ParseData.TableData>> getSortedTableDataList()
+    {
+        sortDataForTable();
+        return sortedDataTableList;
+    }
+
+
+    private void sortDataForTable()
     {
         tableDataList.sort(Comparator.comparingInt(o -> o.getDay().getValue()));
-        return tableDataList;
+
+        DayOfWeek prevDay = null;
+        List<ParseData.TableData> selectSortedTableData = new ArrayList<>();
+        for (ParseData.TableData tableData : tableDataList)
+        {
+            if(prevDay == null)
+                prevDay = tableData.getDay();
+
+            if( !tableData.getDay().equals(prevDay) )
+            {
+                sortedDataTableList.add( selectSortedTableData );
+                selectSortedTableData = new ArrayList<>();
+            }
+
+            selectSortedTableData.add(tableData);
+
+            prevDay = tableData.getDay();
+        }
+        sortedDataTableList.add( selectSortedTableData );
     }
 
 
@@ -99,7 +125,6 @@ public class ParseData
                 previousName = merchant.getMerchantName();
             }
         }
-        // For adding the last day into the list
         tableDataList.add( new TableData( previousDay, previousName, dayAmount ) );
     }
 
