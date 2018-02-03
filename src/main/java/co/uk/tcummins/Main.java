@@ -38,7 +38,6 @@ public class Main
         try
         {
             final String fileName = "csv\\payment-forecast-data.csv";
-            //final String fileName = "csv\\test.csv";
             final ClassLoader classLoader = getClass().getClassLoader();
             final URL resource = classLoader.getResource( fileName );
 

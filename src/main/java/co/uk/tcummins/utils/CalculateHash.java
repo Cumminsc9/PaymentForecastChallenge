@@ -44,7 +44,6 @@ class CalculateHash
 
             if( SHA256.equals( hashedString.toString() ) )
             {
-                Logger.getInstance().log( "Secure hash computed successfully: " + SHA256, CalculateHash.class.getName(), Log.LogLevel.INFO );
                 return true;
             }
         }
@@ -54,6 +53,7 @@ class CalculateHash
             e.printStackTrace();
         }
 
+        Logger.getInstance().log( "Unsuccessful hash validation: ", CalculateHash.class.getName(), Log.LogLevel.ERROR );
         return false;
     }
 }

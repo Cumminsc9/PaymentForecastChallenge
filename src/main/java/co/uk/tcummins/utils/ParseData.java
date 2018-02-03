@@ -173,6 +173,7 @@ public class ParseData
             }
 
             calculateMerchantTotals();
+            Logger.getInstance().log( "Successfully computed all hashes: ", ParseData.class.getName(), Log.LogLevel.INFO );
         }
         catch( IOException e )
         {
