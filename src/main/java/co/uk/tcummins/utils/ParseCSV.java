@@ -1,5 +1,6 @@
 package co.uk.tcummins.utils;
 
+import co.uk.tcummins.controllers.TableController;
 import co.uk.tcummins.objs.Log;
 import co.uk.tcummins.objs.Merchant;
 import co.uk.tcummins.objs.Payment;
@@ -12,9 +13,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.text.NumberFormat;
+import java.time.*;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,12 +28,14 @@ public class ParseCSV
 
     private static ParseCSV instance;
 
+    private final List<TableData> tableDataList;
     private final List<Merchant> merchantList;
 
 
     private ParseCSV()
     {
         merchantList = new ArrayList<>();
+        tableDataList = new ArrayList<>();
     }
 
 
@@ -50,13 +53,74 @@ public class ParseCSV
     }
 
 
-    public List<Merchant> getMerchantList()
+    public List<TableData> getTableDataList()
     {
-        return merchantList;
+        return tableDataList;
     }
 
 
-    public void parseCSV(final Reader reader )
+    private void calculateMerchantTotals()
+    {
+
+        double dayAmount = 0;
+        DayOfWeek previousDay = null;
+
+        for( Merchant merchant : merchantList )
+        {
+            for( Payment payment : merchant.getPayments() )
+            {
+                final LocalDateTime date = payment.getPaymentDue();
+
+                if( date.get(ChronoField.CLOCK_HOUR_OF_DAY) > 16 && date.get(ChronoField.CLOCK_HOUR_OF_DAY) != 24 )
+                {
+                    payment.setPaymentDue( payment.getPaymentDue().plusDays(1) );
+                }
+
+                dayAmount += payment.getAmount();
+
+                if( !date.getDayOfWeek().equals(previousDay) )
+                {
+                    dayAmount = Math.round(dayAmount * 100.0) / 100.0;
+                    tableDataList.add( new TableData( date.getDayOfWeek().toString(), merchant.getMerchantName(), dayAmount ) );
+                    dayAmount = 0;
+                }
+
+                previousDay = date.getDayOfWeek();
+            }
+        }
+
+        System.out.println( tableDataList );
+    }
+
+
+    class TableData
+    {
+        private String day;
+        private String merchant;
+        private double amount;
+
+
+        TableData( String day, String merchant, double amount )
+        {
+            this.day = day;
+            this.merchant = merchant;
+            this.amount = amount;
+        }
+
+        public String getAmount()
+        {
+            return NumberFormat.getCurrencyInstance().format(amount);
+        }
+
+        @Override
+        public String toString()
+        {
+            return "\nTableData: " + "\n\tDay: " + day + "\n\tName: " + merchant + "\n\tAmount: " + amount;
+        }
+    }
+
+
+    public void parseCSV( final Reader reader )
     {
         if( reader == null )
         {
@@ -91,6 +155,8 @@ public class ParseCSV
 
                 prevID = merchantID;
             }
+
+            calculateMerchantTotals();
         }
         catch( IOException e )
         {
@@ -138,9 +204,9 @@ public class ParseCSV
         }
         catch( Exception ex )
         {
-            final long recordNum = record.getRecordNumber()+1;
-            Logger.getInstance().log( "Error parsing record: " + recordNum + ", " +
-                    ex.getMessage(), ParseCSV.class.getName(), Log.LogLevel.ERROR );
+            final long recordNum = record.getRecordNumber() + 1;
+            Logger.getInstance().log( "Error parsing record: " + recordNum + ", " + ex.getMessage(), ParseCSV.class.getName(),
+                    Log.LogLevel.ERROR );
             Logger.getInstance().logParserError( record, recordNum, ex.getMessage() );
         }
 

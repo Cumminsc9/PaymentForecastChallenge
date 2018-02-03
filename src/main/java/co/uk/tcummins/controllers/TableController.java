@@ -1,38 +1,44 @@
 package co.uk.tcummins.controllers;
 
-import co.uk.tcummins.objs.Merchant;
 import co.uk.tcummins.utils.ParseCSV;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
- * File:         TableController
- * Project:      PaymentForecastChallenge
- * Created:      02/02/2018
- * Author:       Tom
+ * File: TableController Project: PaymentForecastChallenge Created: 02/02/2018 Author: Tom
  */
 @Controller
 public class TableController
 {
     @RequestMapping("/")
-    public String tableController()
+    public String tableController( final Model model )
     {
+        model.addAttribute("tableData",  ParseCSV.getInstance().getTableDataList());
         return "table";
     }
 
 
-    private void calculateMerchantTotals()
-    {
-        final List<Merchant> merchantList = ParseCSV.getInstance().getMerchantList();
-        final Map<String, Double> merchatTotals = new HashMap<>();
-
-        for (Merchant merchant : merchantList)
-        {
-
-        }
-    }
+//    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+//    public String uploadPaymentFile( @RequestParam(value = "file") MultipartFile file)
+//    {
+//        if( file.isEmpty() )
+//        {
+//            return "table";
+//        }
+//
+//        try
+//        {
+//            // read and write the file to the selected location-
+//            byte[] bytes = file.getBytes();
+//            Path path = Paths.get( "" + file.getOriginalFilename() );
+//            Files.write( path, bytes );
+//        }
+//        catch( IOException e )
+//        {
+//            e.printStackTrace();
+//        }
+//
+//        return "table";
+//    }
 }

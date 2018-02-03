@@ -1,5 +1,6 @@
 package co.uk.tcummins.objs;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 
 /**
@@ -21,6 +22,8 @@ public class Payment
     private String securityHash;
     private boolean validHash;
 
+    private DayOfWeek paymentDay;
+
     public Payment() {
     }
 
@@ -36,6 +39,26 @@ public class Payment
         this.amount = amount;
         this.securityHash = securityHash;
         this.validHash = validHash;
+    }
+
+    public LocalDateTime getPaymentDue() {
+        return paymentDue;
+    }
+
+    public void setPaymentDue(LocalDateTime paymentDue) {
+        this.paymentDue = paymentDue;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public DayOfWeek getPaymentDay() {
+        return paymentDay;
+    }
+
+    public void setPaymentDay(DayOfWeek paymentDay) {
+        this.paymentDay = paymentDay;
     }
 
     @Override

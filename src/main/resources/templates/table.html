@@ -22,6 +22,14 @@
         </nav>
 
         <div class="container">
+
+            <!--<form method="POST" action="/upload" enctype="multipart/form-data">-->
+                <!--<div class="form-group">-->
+                    <!--<input class="btn btn-default" type="file" name="file" accept="text/csv"/>-->
+                    <!--<input class="btn btn-primary" type="submit" value="Submit" />-->
+                <!--</div>-->
+            <!--</form>-->
+
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
@@ -36,19 +44,43 @@
                 <tbody>
                     <tr>
                         <th>Monday</th>
-                        <!--<td th:text="${arrayname.get(0).getMethod()}"></td>-->
+                        <td th:text="${tableData.get(0).getAmount()}"></td>
+                        <td th:text="${tableData.get(5).getAmount()}"></td>
+                        <td th:text="${tableData.get(10).getAmount()}"></td>
+                        <td th:text="${tableData.get(15).getAmount()}"></td>
+                        <td th:text="${tableData.get(20).getAmount()}"></td>
                     </tr>
                     <tr>
                         <th>Tuesday</th>
+                        <td th:text="${tableData.get(1).getAmount()}"></td>
+                        <td th:text="${tableData.get(6).getAmount()}"></td>
+                        <td th:text="${tableData.get(11).getAmount()}"></td>
+                        <td th:text="${tableData.get(16).getAmount()}"></td>
+                        <td th:text="${tableData.get(21).getAmount()}"></td>
                     </tr>
                     <tr>
                         <th>Wednesday</th>
+                        <td th:text="${tableData.get(2).getAmount()}"></td>
+                        <td th:text="${tableData.get(7).getAmount()}"></td>
+                        <td th:text="${tableData.get(12).getAmount()}"></td>
+                        <td th:text="${tableData.get(17).getAmount()}"></td>
+                        <td th:text="${tableData.get(22).getAmount()}"></td>
                     </tr>
                     <tr>
                         <th>Thursday</th>
+                        <td th:text="${tableData.get(3).getAmount()}"></td>
+                        <td th:text="${tableData.get(8).getAmount()}"></td>
+                        <td th:text="${tableData.get(13).getAmount()}"></td>
+                        <td th:text="${tableData.get(18).getAmount()}"></td>
+                        <td th:text="${tableData.get(23).getAmount()}"></td>
                     </tr>
                     <tr>
                         <th>Friday</th>
+                        <td th:text="${tableData.get(4).getAmount()}"></td>
+                        <td th:text="${tableData.get(9).getAmount()}"></td>
+                        <td th:text="${tableData.get(14).getAmount()}"></td>
+                        <td th:text="${tableData.get(19).getAmount()}"></td>
+                        <td th:text="${tableData.get(24).getAmount()}"></td>
                     </tr>
                 </tbody>
             </table>

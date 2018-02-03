@@ -1,6 +1,5 @@
 package co.uk.tcummins.controllers;
 
-import co.uk.tcummins.objs.Log;
 import co.uk.tcummins.utils.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

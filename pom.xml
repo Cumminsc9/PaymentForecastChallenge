@@ -48,6 +48,7 @@
         <junit.version>4.12</junit.version>
         <commons-csv.version>1.5</commons-csv.version>
         <commons-io.version>2.4</commons-io.version>
+        <commons-fileupload.version>1.2.1</commons-fileupload.version>
         <bootstrap.version>3.3.7</bootstrap.version>
     </properties>
 
@@ -67,6 +68,11 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons-io.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>${commons-fileupload.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -26,7 +26,6 @@ public class Main
         SpringApplication.run(Main.class, args);
     }
 
-
     public Main()
     {
         ParseCSV.getInstance().parseCSV( locateFile() );
@@ -39,8 +38,8 @@ public class Main
     {
         try
         {
-            //final String fileName = "csv\\payment-forecast-data.csv";
-            final String fileName = "csv\\test.csv";
+            final String fileName = "csv\\payment-forecast-data.csv";
+            //final String fileName = "csv\\test.csv";
             final ClassLoader classLoader = getClass().getClassLoader();
             final URL resource = classLoader.getResource( fileName );
 
