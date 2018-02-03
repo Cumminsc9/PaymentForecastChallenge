@@ -2,7 +2,7 @@ package co.uk.tcummins;
 
 import co.uk.tcummins.objs.Log;
 import co.uk.tcummins.utils.Logger;
-import co.uk.tcummins.utils.ParseCSV;
+import co.uk.tcummins.utils.ParseData;
 import org.apache.commons.io.input.BOMInputStream;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,7 +15,7 @@ import java.net.URL;
 /**
  * File:         Main
  * Project:      PaymentForecastChallenge
- * Created:      01/02/2018
+ * Created:      02/02/2018
  * Author:       Tom
  */
 @SpringBootApplication
@@ -28,7 +28,7 @@ public class Main
 
     public Main()
     {
-        ParseCSV.getInstance().parseCSV( locateFile() );
+        ParseData.getInstance().parseCSV( locateFile() );
         Logger.getInstance().log( "Application started", Main.class.getName(), Log.LogLevel.INFO );
 
     }

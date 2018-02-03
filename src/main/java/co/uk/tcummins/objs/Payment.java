@@ -4,7 +4,10 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 
 /**
- * File: Payment Project: PaymentForecastChallenge Created: 01/02/2018 Author: Tom
+ * File: Payment
+ * Project: PaymentForecastChallenge
+ * Created: 02/02/2018
+ * Author: Tom
  */
 public class Payment
 {

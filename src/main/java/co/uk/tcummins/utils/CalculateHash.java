@@ -7,7 +7,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Created by Tom on 02/02/2018.
+ * File: CalculateHash
+ * Project: PaymentForecastChallenge
+ * Created: 02/02/2018
+ * Author: Tom
  */
 class CalculateHash
 {

@@ -16,7 +16,10 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * File: Logger Project: PaymentForecastChallenge Created: 02/02/2018 Author: Tom
+ * File: Logger
+ * Project: PaymentForecastChallenge
+ * Created: 02/02/2018
+ * Author: Tom
  */
 public class Logger
 {
@@ -65,7 +68,7 @@ public class Logger
 
             parseErrorList.add( new Log(
                     LocalDateTime.now( ZoneId.systemDefault() ),
-                    ParseCSV.class.getName(),
+                    ParseData.class.getName(),
                     "Error parsing record: " + recordNum + "\r\n" +
                                "Message: " + exceptionMessage + "\r\n" +
                                "Values: " + Arrays.toString( values ), Log.LogLevel.ERROR ) );

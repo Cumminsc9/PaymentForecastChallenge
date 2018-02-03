@@ -1,12 +1,15 @@
 package co.uk.tcummins.controllers;
 
-import co.uk.tcummins.utils.ParseCSV;
+import co.uk.tcummins.utils.ParseData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * File: TableController Project: PaymentForecastChallenge Created: 02/02/2018 Author: Tom
+ * File: TableController
+ * Project: PaymentForecastChallenge
+ * Created: 02/02/2018
+ * Author: Tom
  */
 @Controller
 public class TableController
@@ -14,7 +17,7 @@ public class TableController
     @RequestMapping("/")
     public String tableController( final Model model )
     {
-        model.addAttribute("tableData",  ParseCSV.getInstance().getTableDataList());
+        model.addAttribute("tableData",  ParseData.getInstance().getTableDataList());
         return "table";
     }
 

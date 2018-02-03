@@ -1,51 +1,53 @@
 package co.uk.tcummins.utils;
 
-import co.uk.tcummins.controllers.TableController;
 import co.uk.tcummins.objs.Log;
 import co.uk.tcummins.objs.Merchant;
 import co.uk.tcummins.objs.Payment;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.apache.commons.io.input.BOMInputStream;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Reader;
-import java.net.URL;
 import java.text.NumberFormat;
-import java.time.*;
+import java.time.DayOfWeek;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * File: ParseCSV Project: PaymentForecastChallenge Created: 01/02/2018 Author: Tom
+ * File: ParseData
+ * Project: PaymentForecastChallenge
+ * Created: 02/02/2018
+ * Author: Tom
  */
-public class ParseCSV
+public class ParseData
 {
     private final static Object SINGLETON = new Object();
 
-    private static ParseCSV instance;
+    private static ParseData instance;
 
     private final List<TableData> tableDataList;
     private final List<Merchant> merchantList;
 
 
-    private ParseCSV()
+    private ParseData()
     {
         merchantList = new ArrayList<>();
         tableDataList = new ArrayList<>();
     }
 
 
-    public static ParseCSV getInstance()
+    public static ParseData getInstance()
     {
         synchronized( SINGLETON )
         {
             if( instance == null )
             {
-                instance = new ParseCSV();
+                instance = new ParseData();
             }
         }
 
@@ -205,7 +207,7 @@ public class ParseCSV
         catch( Exception ex )
         {
             final long recordNum = record.getRecordNumber() + 1;
-            Logger.getInstance().log( "Error parsing record: " + recordNum + ", " + ex.getMessage(), ParseCSV.class.getName(),
+            Logger.getInstance().log( "Error parsing record: " + recordNum + ", " + ex.getMessage(), ParseData.class.getName(),
                     Log.LogLevel.ERROR );
             Logger.getInstance().logParserError( record, recordNum, ex.getMessage() );
         }

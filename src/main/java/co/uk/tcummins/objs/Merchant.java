@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * File: Merchant Project: PaymentForecastChallenge Created: 01/02/2018 Author: Tom
+ * File: Merchant
+ * Project: PaymentForecastChallenge
+ * Created: 02/02/2018
+ * Author: Tom
  */
 public class Merchant
 {

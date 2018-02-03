@@ -3,7 +3,10 @@ package co.uk.tcummins.objs;
 import java.time.LocalDateTime;
 
 /**
- * File: Log Project: PaymentForecastChallenge Created: 02/02/2018 Author: Tom
+ * File: Log
+ * Project: PaymentForecastChallenge
+ * Created: 02/02/2018
+ * Author: Tom
  */
 public class Log
 {
