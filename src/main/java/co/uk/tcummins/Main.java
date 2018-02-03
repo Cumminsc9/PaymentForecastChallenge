@@ -28,8 +28,8 @@ public class Main
 
     public Main()
     {
-        ParseData.getInstance().parseCSV( locateFile() );
         Logger.getInstance().log( "Application started", Main.class.getName(), Log.LogLevel.INFO );
+        ParseData.getInstance().parseCSV( locateFile() );
     }
 
 
@@ -43,7 +43,7 @@ public class Main
 
             if( resource != null )
             {
-                Logger.getInstance().log( "Located csv file", Main.class.getName(), Log.LogLevel.INFO );
+                Logger.getInstance().log( "Located csv file: " + resource.getPath(), Main.class.getName(), Log.LogLevel.INFO );
                 return new InputStreamReader( new BOMInputStream( resource.openStream() ), "UTF-8" );
             }
         }
