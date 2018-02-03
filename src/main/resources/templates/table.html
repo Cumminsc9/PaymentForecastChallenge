@@ -50,7 +50,8 @@
                         <td th:text="${tableData.get(10).getAmount()}"></td>
                         <td th:text="${tableData.get(15).getAmount()}"></td>
                         <td th:text="${tableData.get(20).getAmount()}"></td>
-                        <td th:text="${tableData.get(25).getAmount()}"></td>
+                        <td>No data</td>
+                        <!--<td th:text="${tableData.get(25).getAmount()} == null ? '' : ${tableData.get(25).getAmount()}"></td>-->
                     </tr>
                     <tr>
                         <th>Tuesday</th>
@@ -59,7 +60,7 @@
                         <td th:text="${tableData.get(11).getAmount()}"></td>
                         <td th:text="${tableData.get(16).getAmount()}"></td>
                         <td th:text="${tableData.get(21).getAmount()}"></td>
-                        <td th:text="${tableData.get(26).getAmount()}"></td>
+                        <td th:text="${tableData.get(25).getAmount()}"></td>
                     </tr>
                     <tr>
                         <th>Wednesday</th>
@@ -68,7 +69,7 @@
                         <td th:text="${tableData.get(12).getAmount()}"></td>
                         <td th:text="${tableData.get(17).getAmount()}"></td>
                         <td th:text="${tableData.get(22).getAmount()}"></td>
-                        <td th:text="${tableData.get(27).getAmount()}"></td>
+                        <td th:text="${tableData.get(26).getAmount()}"></td>
                     </tr>
                     <tr>
                         <th>Thursday</th>
@@ -77,7 +78,7 @@
                         <td th:text="${tableData.get(13).getAmount()}"></td>
                         <td th:text="${tableData.get(18).getAmount()}"></td>
                         <td th:text="${tableData.get(23).getAmount()}"></td>
-                        <td th:text="${tableData.get(28).getAmount()}"></td>
+                        <td th:text="${tableData.get(27).getAmount()}"></td>
                     </tr>
                     <tr>
                         <th>Friday</th>
@@ -86,7 +87,7 @@
                         <td th:text="${tableData.get(14).getAmount()}"></td>
                         <td th:text="${tableData.get(19).getAmount()}"></td>
                         <td th:text="${tableData.get(24).getAmount()}"></td>
-                        <td th:text="${tableData.get(29).getAmount()}"></td>
+                        <td th:text="${tableData.get(28).getAmount()}"></td>
                     </tr>
                 </tbody>
             </table>

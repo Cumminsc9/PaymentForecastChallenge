@@ -17,7 +17,7 @@ public class TableController
     @RequestMapping("/")
     public String tableController( final Model model )
     {
-        model.addAttribute("tableData",  ParseData.getInstance().getTableDataList());
+        model.addAttribute("tableData", ParseData.getInstance().getTableDataList() );
         return "table";
     }
 

@@ -6,7 +6,6 @@ import co.uk.tcummins.objs.Payment;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -17,6 +16,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoField;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -58,6 +59,7 @@ public class ParseData
 
     public List<TableData> getTableDataList()
     {
+        tableDataList.sort(Comparator.comparingInt(o -> o.getDay().getValue()));
         return tableDataList;
     }
 
@@ -66,45 +68,59 @@ public class ParseData
     {
         double dayAmount = 0;
         DayOfWeek previousDay = null;
+        String previousName = "";
 
         for( Merchant merchant : merchantList )
         {
             for( Payment payment : merchant.getPayments() )
             {
-                if( payment.getPaymentDue().get(ChronoField.CLOCK_HOUR_OF_DAY) >= 16 && payment.getPaymentDue().get(ChronoField.CLOCK_HOUR_OF_DAY) != 24 )
+                if( payment.getPaymentDue().get(ChronoField.CLOCK_HOUR_OF_DAY) >= 16 &&
+                    payment.getPaymentDue().get(ChronoField.CLOCK_HOUR_OF_DAY) != 24 )
                 {
                     payment.setPaymentDue( payment.getPaymentDue().plusDays(1) );
                 }
 
                 dayAmount += payment.getAmount();
 
-                if( previousDay != null && !payment.getPaymentDue().getDayOfWeek().equals( previousDay ) )
+                // The newly injected condition here
+                if(previousDay == null)
+                {
+                    previousDay = payment.getPaymentDue().getDayOfWeek();
+                }
+
+                if( !payment.getPaymentDue().getDayOfWeek().equals( previousDay ) )
                 {
                     dayAmount = Math.round(dayAmount * 100.0) / 100.0;
-                    tableDataList.add( new TableData(  payment.getPaymentDue().getDayOfWeek().toString(), merchant.getMerchantName(), dayAmount ) );
+                    tableDataList.add( new TableData( previousDay, previousName, dayAmount ) );
                     dayAmount = 0;
                 }
 
-                previousDay =  payment.getPaymentDue().getDayOfWeek();
+                previousDay = payment.getPaymentDue().getDayOfWeek();
+                previousName = merchant.getMerchantName();
             }
         }
-
-        System.out.println( tableDataList );
+        // For adding the last day into the list
+        tableDataList.add( new TableData( previousDay, previousName, dayAmount ) );
     }
 
 
-    class TableData
+    public class TableData
     {
-        private String day;
+        private DayOfWeek day;
         private String merchant;
         private double amount;
 
 
-        TableData( String day, String merchant, double amount )
+        TableData( DayOfWeek day, String merchant, double amount )
         {
             this.day = day;
             this.merchant = merchant;
             this.amount = amount;
+        }
+
+        public DayOfWeek getDay()
+        {
+            return day;
         }
 
         public String getAmount()
