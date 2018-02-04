@@ -60,12 +60,11 @@ public class ParseData
 
     public List<List<ParseData.TableData>> getSortedTableDataList()
     {
-        sortDataForTable();
         return sortedDataTableList;
     }
 
 
-    private void sortDataForTable()
+    private void sortTableData()
     {
         tableDataList.sort(Comparator.comparingInt(o -> o.getDay().getValue()));
 
@@ -74,7 +73,9 @@ public class ParseData
         for (ParseData.TableData tableData : tableDataList)
         {
             if(prevDay == null)
+            {
                 prevDay = tableData.getDay();
+            }
 
             if( !tableData.getDay().equals(prevDay) )
             {
@@ -125,6 +126,7 @@ public class ParseData
             }
         }
         tableDataList.add( new TableData( previousDay, previousName, dayAmount ) );
+        sortTableData();
     }
 
 
