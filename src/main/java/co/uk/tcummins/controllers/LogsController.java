@@ -27,6 +27,10 @@ public class LogsController
         return "logs";
     }
 
+
+    /**
+     * @return The standard log file.
+     */
     @ResponseBody
     @RequestMapping(value = "/logs/download/logs", method = RequestMethod.GET)
     private ResponseEntity<byte[]> exportLogFile()
@@ -36,6 +40,10 @@ public class LogsController
         return new ResponseEntity<>(logFile, getFileHeaders(filename), HttpStatus.OK);
     }
 
+
+    /**
+     * @return The parser error log file.
+     */
     @ResponseBody
     @RequestMapping(value = "/logs/download/errors", method = RequestMethod.GET)
     private ResponseEntity<byte[]> exportParserErrors()
@@ -45,6 +53,13 @@ public class LogsController
         return new ResponseEntity<>(logFile, getFileHeaders(filename), HttpStatus.OK);
     }
 
+
+    /**
+     * @param filename The filename the header will be created with.
+     *
+     * @return The HttpHeaders for the response to allow the user to download the
+     *          log files.
+     */
     private HttpHeaders getFileHeaders( final String filename )
     {
         final HttpHeaders headers = new HttpHeaders();
