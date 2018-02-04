@@ -51,9 +51,8 @@ public class Main
     {
         try
         {
-            final String fileName = "csv\\payment-forecast-data.csv";
             final ClassLoader classLoader = getClass().getClassLoader();
-            final URL resource = classLoader.getResource( fileName );
+            final URL resource = classLoader.getResource( getFilePath() );
 
             if( resource != null )
             {
@@ -68,5 +67,20 @@ public class Main
         }
 
         return null;
+    }
+
+    private String getFilePath()
+    {
+        final String systemOSName = System.getProperty( "os.name" );
+        final String osx = "Mac OS X";
+
+        if( systemOSName.contains( osx ) )
+        {
+            return "csv/payment-forecast-data.csv";
+        }
+        else
+        {
+            return "csv\\payment-forecast-data.csv";
+        }
     }
 }
