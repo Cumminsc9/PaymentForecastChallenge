@@ -44,6 +44,12 @@ public class ParseData
     }
 
 
+    /**
+     * If ParseData has not yet been created, create a single instance and return it. Otherwise return
+     * the current created instance.
+     *
+     * @return The ParseData instance.
+     */
     public static ParseData getInstance()
     {
         synchronized( SINGLETON )
@@ -58,12 +64,19 @@ public class ParseData
     }
 
 
+    /**
+     * @return The sorted data to be inserted into the UI table
+     */
     public List<List<ParseData.TableData>> getSortedTableDataList()
     {
         return sortedDataTableList;
     }
 
 
+    /**
+     * sortTableData() sorts the data into a format that can be easily used by
+     * the front end UI to display the data in a simple way.
+     */
     private void sortTableData()
     {
         tableDataList.sort(Comparator.comparingInt(o -> o.getDay().getValue()));
@@ -91,6 +104,11 @@ public class ParseData
     }
 
 
+    /**
+     * calculateMerchantTotals() iterates over the current parsed data
+     * and possibly moves the payment to the correct day, and then calculates
+     * the correct amount for the Merchant on the specified day.
+     */
     private void calculateMerchantTotals()
     {
         double dayAmount = 0;
@@ -129,6 +147,9 @@ public class ParseData
     }
 
 
+    /**
+     * The POJO that defines the data that will be inserted into the UI table
+     */
     public class TableData
     {
         private DayOfWeek day;
@@ -143,20 +164,24 @@ public class ParseData
             this.amount = amount;
         }
 
+
         public DayOfWeek getDay()
         {
             return day;
         }
+
 
         public String getMerchant()
         {
             return merchant;
         }
 
+		
         public String getAmount()
         {
             return NumberFormat.getCurrencyInstance().format(amount);
         }
+
 
         @Override
         public String toString()
@@ -166,6 +191,12 @@ public class ParseData
     }
 
 
+    /**
+     * parseCSV() Reads the content of the passed in reader and utilises the CSVParser class
+     * to easily parse and read the CSV file.
+     *
+     * @param reader The character stream of the passed in CSV file.
+     */
     public void parseCSV( final Reader reader )
     {
         if( reader == null )
@@ -225,6 +256,16 @@ public class ParseData
     }
 
 
+    /**
+     * parsePaymentRecord() parses the actual payment for the passed record, this is then returned
+     * to the parseCSV() method that assigns the returned Payment POJO to the correct Merchant POJO.
+     *
+     * @param record The CSVRecord to parse.
+     * @param merchantPubKey The merchantPubKey that's used to compute the SHA-256 hash.
+     *
+     * @return A Payment POJO that is linked to the correct Merchant POJO. Otherwise return if there has been
+     *          an error during parsing.
+     */
     private Payment parsePaymentRecord( final CSVRecord record, final String merchantPubKey )
     {
         try

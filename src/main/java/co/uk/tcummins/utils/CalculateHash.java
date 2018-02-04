@@ -17,6 +17,21 @@ class CalculateHash
     private static final char[] HEXCODE = "0123456789abcdef".toCharArray();
 
 
+    /**
+     * calculateSecurityHash() attempts to validate the security hash, by concatenating the
+     * required fields and creating a replica of the original SHA-256 hash as retrieved in the CSV
+     * file.
+     *
+     * @param SHA256 The original SHA-256 string as received from the CSV file.
+     * @param merchantPubKey The merchantPubKey as received from the CSV file.
+     * @param payerPubKey The payerPubKey as received from the CSV file.
+     * @param debitPermissionId The debitPermissedId as received from the CSV file.
+     * @param dueEpoch The dueEpoch as received from the CSV file.
+     * @param amount The amount as received from the CSV file.
+     *
+     * @return A boolean value depending on if the validation of the SHA-256 hash was successful.
+     *          returns true for a successful hash. Otherwise return false.
+     */
     static boolean calculateSecurityHash(String SHA256,
                                          String merchantPubKey,
                                          String payerPubKey,
@@ -24,7 +39,8 @@ class CalculateHash
                                          long dueEpoch,
                                          String amount)
     {
-        final String unhashedString = new StringBuilder().append( merchantPubKey )
+        final String unhashedString = new StringBuilder()
+                .append( merchantPubKey )
                 .append( payerPubKey )
                 .append( debitPermissionId )
                 .append( dueEpoch )
@@ -38,7 +54,10 @@ class CalculateHash
             final StringBuilder hashedString = new StringBuilder( digestedByteArray.length * 2 );
             for( byte b : digestedByteArray )
             {
+                // Right bit shift operation
                 hashedString.append( HEXCODE[(b >> 4) & 0xF] );
+
+                // Bitwise AND operation
                 hashedString.append( HEXCODE[(b & 0xF)] );
             }
 

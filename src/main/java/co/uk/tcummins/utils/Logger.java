@@ -38,6 +38,12 @@ public class Logger
     }
 
 
+    /**
+     * If ParseData has not yet been created, create a single instance and return it. Otherwise return
+     * the current created instance.
+     * *
+     * @return The Logger instance.
+     */
     public static Logger getInstance()
     {
         synchronized( SINGLETON )
@@ -52,13 +58,28 @@ public class Logger
     }
 
 
+    /**
+     * log() appends the Log message to the log list.
+     *
+     * @param logMessage The log message, description or stack trace message.
+     * @param className The class where the log occurred.
+     * @param logLevel The level of the log depending of severity.
+     */
     public void log( final String logMessage, String className, final Log.LogLevel logLevel)
     {
         logList.add( new Log( LocalDateTime.now( ZoneId.systemDefault() ), className, logMessage, logLevel ) );
     }
 
 
-    public void logParserError( final CSVRecord record, final long recordNum, final String exceptionMessage )
+    /**
+     * logParserError() is used to track parsing errors when attempting to parse
+     * the CSV file.
+     *
+     * @param record The record which could not be parsed
+     * @param recordNum The record number of the CSV file
+     * @param exceptionMessage The exception message received from the parsing error
+     */
+    void logParserError(final CSVRecord record, final long recordNum, final String exceptionMessage)
     {
         try
         {
@@ -81,17 +102,32 @@ public class Logger
     }
 
 
+    /**
+     * @return The standard logs.
+     */
     public List<Log> getLogs()
     {
         return logList;
     }
 
 
+    /**
+     * @return The parser error logs.
+     */
     public List<Log> getParserErrors()
     {
         return parseErrorList;
     }
 
+
+    /**
+     * Creates a log file from the logs depending on which logs the user requests.
+     *
+     * @param fileName The filename the log file will be generated with.
+     * @param logList The logs the user has requested.
+     *
+     * @return A byte[] of the written log file.
+     */
     public byte[] getLogFile( final String fileName, final List<Log> logList )
     {
         try
@@ -121,6 +157,5 @@ public class Logger
 
         return null;
     }
-
 }
 

@@ -21,10 +21,17 @@ import java.net.URL;
 @SpringBootApplication
 public class Main
 {
+    /**
+     * Entry point to the Spring Application.
+     *
+     * @param args Arguments, are not required.
+     */
     public static void main(String[] args)
     {
         SpringApplication.run(Main.class, args);
     }
+
+
 
     public Main()
     {
@@ -33,6 +40,13 @@ public class Main
     }
 
 
+    /**
+     * locateFile attempts to locate the file resource through the Classloader and returns a
+     * Reader object that can be parsed.
+     *
+     * @return The Reader object that allows us to read the contents of the located file.
+     *          Otherwise return null if the file cannot be located or read.
+     */
     private Reader locateFile()
     {
         try
