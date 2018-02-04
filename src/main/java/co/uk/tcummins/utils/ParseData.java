@@ -107,8 +107,6 @@ public class ParseData
                     payment.setPaymentDue( payment.getPaymentDue().plusDays(1) );
                 }
 
-                dayAmount += payment.getAmount();
-
                 if(previousDay == null)
                 {
                     previousDay = payment.getPaymentDue().getDayOfWeek();
@@ -121,6 +119,7 @@ public class ParseData
                     dayAmount = 0;
                 }
 
+                dayAmount += payment.getAmount();
                 previousDay = payment.getPaymentDue().getDayOfWeek();
                 previousName = merchant.getMerchantName();
             }
@@ -147,6 +146,11 @@ public class ParseData
         public DayOfWeek getDay()
         {
             return day;
+        }
+
+        public String getMerchant()
+        {
+            return merchant;
         }
 
         public String getAmount()
