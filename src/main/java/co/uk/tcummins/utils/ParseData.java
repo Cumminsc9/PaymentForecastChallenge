@@ -208,36 +208,40 @@ public class ParseData
 
         try
         {
+            clearCollections();
             parser = new CSVParser( reader, CSVFormat.EXCEL.withHeader() );
 
             int prevID = 0;
             Merchant merchant = null;
             for( CSVRecord record : parser.getRecords() )
             {
-                final int merchantID = Integer.parseInt( record.get( "MerchantId" ) );
-                final String merchantName = record.get( "MerchantName" );
-                final String merchantPubKey = record.get( "MerchantPubKey" );
-
-                if( merchantID != prevID )
+                if( !record.get(0).isEmpty() )
                 {
-                    merchant = new Merchant( merchantID, merchantName, merchantPubKey );
-                    merchantList.add( merchant );
-                }
+                    final int merchantID = Integer.parseInt( record.get( "MerchantId" ) );
+                    final String merchantName = record.get( "MerchantName" );
+                    final String merchantPubKey = record.get( "MerchantPubKey" );
 
-                final Payment payment = parsePaymentRecord( record, merchantPubKey );
-                if( merchant != null && payment != null )
-                {
-                    merchant.addPayment( payment );
-                }
+                    if( merchantID != prevID )
+                    {
+                        merchant = new Merchant( merchantID, merchantName, merchantPubKey );
+                        merchantList.add( merchant );
+                    }
 
-                prevID = merchantID;
+                    final Payment payment = parsePaymentRecord( record, merchantPubKey );
+                    if( merchant != null && payment != null )
+                    {
+                        merchant.addPayment( payment );
+                    }
+
+                    prevID = merchantID;
+                }
             }
 
             calculateMerchantTotals();
         }
         catch( IOException e )
         {
-            Logger.getInstance().log("Error during parsing of file: " + e.getMessage(), ParseData.class.getName(), Log.LogLevel.ERROR);
+            Logger.getInstance().log( "Error during parsing of file: " + e.getMessage(), ParseData.class.getName(), Log.LogLevel.ERROR );
         }
         finally
         {
@@ -249,7 +253,7 @@ public class ParseData
                 }
                 catch( IOException e )
                 {
-                    Logger.getInstance().log("Error during parsing of file: "+ e.getMessage(), ParseData.class.getName(), Log.LogLevel.ERROR);
+                    Logger.getInstance().log( "Error during parsing of file: "+ e.getMessage(), ParseData.class.getName(), Log.LogLevel.ERROR );
                 }
             }
         }
@@ -298,5 +302,12 @@ public class ParseData
         }
 
         return null;
+    }
+
+    private void clearCollections()
+    {
+        tableDataList.clear();
+        merchantList.clear();
+        sortedDataTableList.clear();
     }
 }
