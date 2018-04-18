@@ -55,7 +55,7 @@ class CalculateHash
             for( byte b : digestedByteArray )
             {
                 // Right bit shift operation
-                hashedString.append( HEXCODE[(b >> 4) & 0xF] );
+                hashedString.append( HEXCODE[(b >>> 4) & 0xF] );
 
                 // Bitwise AND operation
                 hashedString.append( HEXCODE[(b & 0xF)] );
